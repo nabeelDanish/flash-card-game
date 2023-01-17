@@ -1,0 +1,8 @@
+node_modules
+
+# Auth
+credentials.json
+token.json
+
+# Local Cache
+cache.json
