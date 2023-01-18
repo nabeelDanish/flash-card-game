@@ -1,5 +1,8 @@
 node_modules
 
+# Env
+.env
+
 # Auth
 credentials.json
 token.json
