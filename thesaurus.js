@@ -23,24 +23,36 @@ exports.getSynonymsAndAntonyms = async (word, n = 3) => {
         antonyms: [],
       };
 
-    const toSendSynonymsIndexes = getNRandomNumbersInRange(
-      0,
-      synonyms.length,
-      n
-    );
+    let toSendSynonyms;
+    let toSendAntonyms;
+
+    if (synonyms.length > n) {
+      const toSendSynonymsIndexes = getNRandomNumbersInRange(
+        0,
+        synonyms.length,
+        n
+      );
+
+      toSendSynonyms = synonyms.filter((synonym, index) => {
+        return toSendSynonymsIndexes.includes(index);
+      });
+    } else {
+      toSendSynonyms = synonyms;
+    }
+
     const toSendAntonymsIndexes = getNRandomNumbersInRange(
       0,
       antonyms.length,
       n
     );
 
-    const toSendSynonyms = synonyms.filter((synonym, index) => {
-      return toSendSynonymsIndexes.includes(index);
-    });
-
-    const toSendAntonyms = antonyms.filter((antonym, index) => {
-      return toSendAntonymsIndexes.includes(index);
-    });
+    if (antonyms.length > n) {
+      toSendAntonyms = antonyms.filter((antonym, index) => {
+        return toSendAntonymsIndexes.includes(index);
+      });
+    } else {
+      toSendAntonyms = antonyms;
+    }
 
     return {
       synonyms: toSendSynonyms,
