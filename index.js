@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const { initializeDatabase } = require("./google/google");
 const { getSynonymsAndAntonyms } = require("./thesaurus");
-const { getNRandomNumbersInRange } = require("./utils");
+const { shuffle } = require("./utils");
 
 const formatData = (rows) => {
   const dataStore = [];
@@ -33,7 +33,7 @@ const runFlashCardsGame = async (dataStore) => {
   const uniqueWords = dataStore.length;
   if (uniqueWords <= 0) return console.log("Error! No Data found!");
 
-  const SESSION_LENGTH = 5;
+  const SESSION_LENGTH = 10;
 
   while (true) {
     console.log("-----------------------------------------------------------");
@@ -42,18 +42,13 @@ const runFlashCardsGame = async (dataStore) => {
 
     console.log("-----------------------------------------------------------");
 
-    const randomIndexes = getNRandomNumbersInRange(
-      0,
-      uniqueWords,
-      SESSION_LENGTH
-    );
+    const randomDataStore = shuffle(dataStore);
 
-    for (let i = 0; i < SESSION_LENGTH; i++) {
+    for (let i = 0; i < randomDataStore.length; i++) {
       console.log("                ------------------                ");
 
       // Displaying the Word
-      const rand = randomIndexes[i];
-      const store = dataStore[rand];
+      const store = randomDataStore[i];
       console.log(`\nThe word is: ${store.word}`);
 
       // Showing it's meanings
