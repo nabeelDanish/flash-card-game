@@ -31,3 +31,30 @@ exports.shuffle = (array) => {
 
   return array;
 };
+
+exports.formatData = (rows) => {
+  const dataStore = [];
+  let uniqueWords = 0;
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+
+    if (row[0] !== "") {
+      dataStore.push({
+        word: row[0],
+        meanings: [row[1]],
+        sentences: [row[2]],
+      });
+      ++uniqueWords;
+    } else {
+      if (row[1] !== "") dataStore[uniqueWords - 1].meanings.push(row[1]);
+      if (row[2] !== "") dataStore[uniqueWords - 1].sentences.push(row[2]);
+    }
+  }
+
+  return dataStore;
+};
+
+exports.sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

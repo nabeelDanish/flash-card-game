@@ -4,30 +4,7 @@ require("dotenv").config();
 
 const { initializeDatabase } = require("./google/google");
 const { getSynonymsAndAntonyms } = require("./thesaurus");
-const { shuffle } = require("./utils");
-
-const formatData = (rows) => {
-  const dataStore = [];
-  let uniqueWords = 0;
-
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-
-    if (row[0] !== "") {
-      dataStore.push({
-        word: row[0],
-        meanings: [row[1]],
-        sentences: [row[2]],
-      });
-      ++uniqueWords;
-    } else {
-      if (row[1] !== "") dataStore[uniqueWords - 1].meanings.push(row[1]);
-      if (row[2] !== "") dataStore[uniqueWords - 1].sentences.push(row[2]);
-    }
-  }
-
-  return dataStore;
-};
+const { shuffle, formatData } = require("./utils");
 
 const runFlashCardsGame = async (dataStore) => {
   const uniqueWords = dataStore.length;
@@ -45,6 +22,12 @@ const runFlashCardsGame = async (dataStore) => {
     const randomDataStore = shuffle(dataStore);
 
     for (let i = 0; i < randomDataStore.length; i++) {
+      console.log("                ------------------                ");
+      console.log(
+        `                      ${i + 1}/${
+          randomDataStore.length
+        }                `
+      );
       console.log("                ------------------                ");
 
       // Displaying the Word
